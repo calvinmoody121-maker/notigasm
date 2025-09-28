@@ -11,7 +11,7 @@ interface Friend {
   isOnline: boolean;
 }
 
-export default function AddFriendPage() {
+export default function AddFriendPage({navigation}: any) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'search' | 'suggestions'>('search');
 
@@ -96,11 +96,12 @@ export default function AddFriendPage() {
         return (
           <TouchableOpacity
             style={styles.addButton}
-            onPress={() => handleAddFriend(friend.id)}
+            // onPress={() => handleAddFriend(friend.id)}
+            onPress={() => navigation.navigate('Messages')}
             activeOpacity={0.8}
           >
             <MessageCircle size={16} color="#FFFFFF" />
-            <Text style={styles.addButtonText}>Message</Text>
+            <Text style={styles.addButtonText}>Messages</Text>
           </TouchableOpacity>
         );
     }
