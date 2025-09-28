@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { useState } from 'react';
-import { Search, UserPlus, Check, X, Users, Star } from 'lucide-react-native';
+import { Search, UserPlus, Check, X, Users, Star, MessageCircle } from 'lucide-react-native';
 
 interface Friend {
   id: string;
@@ -99,8 +99,8 @@ export default function AddFriendPage() {
             onPress={() => handleAddFriend(friend.id)}
             activeOpacity={0.8}
           >
-            <UserPlus size={16} color="#FFFFFF" />
-            <Text style={styles.addButtonText}>Add</Text>
+            <MessageCircle size={16} color="#FFFFFF" />
+            <Text style={styles.addButtonText}>Message</Text>
           </TouchableOpacity>
         );
     }
@@ -173,7 +173,7 @@ export default function AddFriendPage() {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.content}>
+      {/* <View style={styles.content}>
         {activeTab === 'search' ? (
           <View style={styles.searchResults}>
             {searchQuery ? (
@@ -188,7 +188,8 @@ export default function AddFriendPage() {
               </View>
             )}
           </View>
-        ) : (
+        ) 
+        : (
           <FlatList
             data={friendRequests}
             renderItem={renderFriendCard}
@@ -200,7 +201,27 @@ export default function AddFriendPage() {
             )}
           />
         )}
+      </View> */}
+
+      <View style={styles.content}>
+        <View style={styles.searchResults}>
+          {searchQuery ? (
+            <Text style={styles.searchingText}>Searching for "{searchQuery}"...</Text>
+          ) : (
+            <FlatList
+              data={friendRequests}
+              renderItem={renderFriendCard}
+              keyExtractor={(item) => item.id}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.friendsList}
+              ListHeaderComponent={() => (
+                <Text style={styles.sectionTitle}>People You May Know ...</Text>
+              )}
+            />
+          )}
+        </View>
       </View>
+
     </View>
   );
 }

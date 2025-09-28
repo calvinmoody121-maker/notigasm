@@ -15,7 +15,7 @@ export default function LandingPage() {
     {
       icon: MessageCircle,
       title: 'Notifications',
-      description: 'Notify your friends but not like before',
+      description: 'Notify your friends but not like before.',
       color: '#8B5CF6',
     },
     {
