@@ -25,15 +25,15 @@ export default function StartStormButton() {
     }
   }
 
-  return (
-    <Pressable style={styles.button} onPress={start} disabled={loading}>
-      {loading ? (
-        <ActivityIndicator color="#fff" />
-      ) : (
-        <Text style={styles.text}>Start Test Storm</Text>
-      )}
-    </Pressable>
-  );
+  // return (
+  //   <Pressable style={styles.button} onPress={start} disabled={loading}>
+  //     {loading ? (
+  //       <ActivityIndicator color="#fff" />
+  //     ) : (
+  //       <Text style={styles.text}>Start Test Storm</Text>
+  //     )}
+  //   </Pressable>
+  // );
 }
 
 const styles = StyleSheet.create({

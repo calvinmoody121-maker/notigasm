@@ -116,7 +116,7 @@ export default function LandingPage() {
           <Text style={styles.secondaryButtonText}>Learn More</Text>
         </TouchableOpacity>
         <View style={{ marginTop: 20, alignItems: 'center' }}>
-          <StartStormButton />
+          {/* <StartStormButton /> */}
         </View>
       </View>
     </ScrollView>
