@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Users, MessageCircle, Shield, Zap } from 'lucide-react-native';
 import { router } from 'expo-router';
@@ -19,7 +19,7 @@ export default function LandingPage() {
       icon: Users,
       title: 'Connect with your Besties',
       description: 'Build meaningful connections with people around the world',
-      color: '#3B82F6',
+      color: '#5d258a',
     },
     {
       icon: MessageCircle,
@@ -44,9 +44,9 @@ export default function LandingPage() {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <LinearGradient
-        colors={['#3B82F6', '#8B5CF6']}
+        colors={['#5d258aff', '#c534c3ff', '#dc2e65ff', '#961c2fff']}
         start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+        end={{ x: 1, y: -1 }}
         style={styles.heroSection}
       >
         <View style={styles.heroContent}>
@@ -57,6 +57,13 @@ export default function LandingPage() {
           <TouchableOpacity style={styles.ctaButton} activeOpacity={0.8} onPress={handleGetStarted}>
             <Text style={styles.ctaButtonText}>Get Started!</Text>
           </TouchableOpacity>
+          <Image
+          source={require('../../assets/images/chatgpt.png')}
+          style={{ width: 200, height: 200, marginTop:35, marginBottom: -60}}
+          resizeMode="contain"
+        />
+
+
         </View>
       </LinearGradient>
 
@@ -156,7 +163,7 @@ const styles = StyleSheet.create({
   ctaButtonText: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#3B82F6',
+    color: '#5d258a',
   },
   contentSection: {
     paddingHorizontal: 20,
@@ -226,7 +233,7 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 24,
     fontWeight: '800',
-    color: '#3B82F6',
+    color: '#c534c3',
     marginBottom: 4,
   },
   statLabel: {

@@ -12,7 +12,7 @@ import {
   ScrollView,
   Animated,
 } from 'react-native';
-import { X, Plus, Mic } from 'lucide-react-native';
+import { X, Plus, Send } from 'lucide-react-native';
 
 interface MessageModalProps {
   visible: boolean;
@@ -31,9 +31,9 @@ const MessageModal: React.FC<MessageModalProps> = ({
   const [selectedPill, setSelectedPill] = useState<string | null>(null);
 
   const preloadedMessages = [
-    "Hey! What's up? 👋",
-    "Want to hang out? 🎉",
-    "Miss you! 💕"
+    "You survived today, but why? 😉",
+    "Updated failed: story of your life",
+    "To-do list: Give up"
   ];
 
   const handleSendMessage = () => {
@@ -126,14 +126,10 @@ const MessageModal: React.FC<MessageModalProps> = ({
 
           {/* Input Area */}
           <View style={styles.inputContainer}>
-            <TouchableOpacity style={styles.attachButton}>
-              <Plus size={24} color="#6D6D70" />
-            </TouchableOpacity>
-            
             <View style={styles.textInputContainer}>
               <TextInput
                 style={styles.textInput}
-                placeholder="iMessage"
+                placeholder="Give the context of your Notigasm"
                 placeholderTextColor="#6D6D70"
                 value={selectedPill ? '' : message}
                 onChangeText={(text) => {
@@ -146,8 +142,8 @@ const MessageModal: React.FC<MessageModalProps> = ({
               />
             </View>
 
-            <TouchableOpacity style={styles.micButton}>
-              <Mic size={24} color="#6D6D70" />
+            <TouchableOpacity style={styles.sendIconButton} onPress={handleSendMessage}>
+              <Send size={24} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
 
@@ -204,7 +200,7 @@ const styles = StyleSheet.create({
   },
   recipientContainer: {
     flex: 1,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#5d258a',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
@@ -248,8 +244,8 @@ const styles = StyleSheet.create({
     borderColor: '#C6C6C8',
   },
   selectedPill: {
-    backgroundColor: '#007AFF',
-    borderColor: '#007AFF',
+    backgroundColor: '#5d258a',
+    borderColor: '#5d258a',
   },
   pillText: {
     fontSize: 16,
@@ -270,7 +266,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   messagePreview: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#5d258a',
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 18,
@@ -283,39 +279,42 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
     backgroundColor: '#F2F2F7',
     borderTopWidth: 0.5,
     borderTopColor: '#C6C6C8',
   },
-  attachButton: {
-    padding: 8,
-    marginRight: 8,
-  },
   textInputContainer: {
     flex: 1,
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
     paddingHorizontal: 16,
-    paddingVertical: 8,
-    minHeight: 36,
+    paddingVertical: 12,
+    minHeight: 44,
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: '#E5E5EA',
+    marginRight: 8,
   },
   textInput: {
     fontSize: 16,
     color: '#000000',
     maxHeight: 100,
+    textAlign: 'left',
+    textAlignVertical: 'center',
   },
-  micButton: {
-    padding: 8,
-    marginLeft: 8,
+  sendIconButton: {
+    backgroundColor: '#5d258a',
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 44,
+    height: 44,
   },
   sendButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#5d258a',
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 25,

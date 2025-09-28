@@ -243,7 +243,7 @@ export default function AddFriendPage() {
         onPress={() => handleMessage(item.id)}
         activeOpacity={0.8}
       >
-        <MessageCircle size={16} color="#3B82F6" />
+        <MessageCircle size={16} color="#5d258a" />
         <Text style={styles.messageButtonText}>Poke</Text>
       </TouchableOpacity>
     </View>
@@ -277,7 +277,7 @@ export default function AddFriendPage() {
           onPress={() => setActiveTab('search')}
           activeOpacity={0.8}
         >
-          <Search size={18} color={activeTab === 'search' ? '#3B82F6' : '#6B7280'} />
+          <Search size={18} color={activeTab === 'search' ? '#5d258a' : '#6B7280'} />
           <Text style={[styles.tabText, activeTab === 'search' && styles.activeTabText]}>
             Search
           </Text>
@@ -287,7 +287,7 @@ export default function AddFriendPage() {
           onPress={() => setActiveTab('suggestions')}
           activeOpacity={0.8}
         >
-          <Star size={18} color={activeTab === 'suggestions' ? '#3B82F6' : '#6B7280'} />
+          <Star size={18} color={activeTab === 'suggestions' ? '#5d258a' : '#6B7280'} />
           <Text style={[styles.tabText, activeTab === 'suggestions' && styles.activeTabText]}>
             Suggestions
           </Text>
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
     color: '#6B7280',
   },
   activeTabText: {
-    color: '#3B82F6',
+    color: '#5d258a',
   },
   content: {
     flex: 1,
@@ -528,7 +528,7 @@ const styles = StyleSheet.create({
   addButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#3B82F6',
+    backgroundColor: '#5d258a',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
@@ -574,17 +574,17 @@ const styles = StyleSheet.create({
   messageButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EFF6FF',
+    backgroundColor: '#5d258a20',
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 8,
     gap: 4,
     borderWidth: 1,
-    borderColor: '#BFDBFE',
+    borderColor: '#5d258a40',
   },
   messageButtonText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#3B82F6',
+    color: '#5d258a',
   },
 });

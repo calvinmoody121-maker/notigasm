@@ -56,7 +56,7 @@ export default function SignInPage() {
     >
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         <LinearGradient
-          colors={['#3B82F6', '#1E40AF']}
+          colors={['#5d258a', '#c534c3']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.header}
@@ -122,7 +122,7 @@ export default function SignInPage() {
             disabled={isLoading}
           >
             <LinearGradient
-              colors={isLoading ? ['#9CA3AF', '#6B7280'] : ['#3B82F6', '#1E40AF']}
+              colors={isLoading ? ['#9CA3AF', '#6B7280'] : ['#5d258a', '#c534c3']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               style={styles.signInButtonGradient}
@@ -240,14 +240,14 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     fontSize: 14,
-    color: '#3B82F6',
+    color: '#5d258a',
     fontWeight: '600',
   },
   signInButton: {
     borderRadius: 12,
     overflow: 'hidden',
     marginBottom: 32,
-    shadowColor: '#3B82F6',
+    shadowColor: '#5d258a',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
   },
   footerLink: {
     fontSize: 14,
-    color: '#3B82F6',
+    color: '#5d258a',
     fontWeight: '600',
   },
 });
