@@ -8,14 +8,14 @@ export default function LandingPage() {
   const features = [
     {
       icon: Users,
-      title: 'Connect with Friends',
+      title: 'Connect with Besties',
       description: 'Build meaningful connections with people around the world',
       color: '#3B82F6',
     },
     {
       icon: MessageCircle,
-      title: 'Real-time Chat',
-      description: 'Instant messaging with friends and family',
+      title: 'Notifications',
+      description: 'Notify your friends but not like before',
       color: '#8B5CF6',
     },
     {
@@ -41,9 +41,9 @@ export default function LandingPage() {
         style={styles.heroSection}
       >
         <View style={styles.heroContent}>
-          <Text style={styles.heroTitle}>Welcome to ConnectApp</Text>
+          <Text style={styles.heroTitle}>Welcome to Notigasm</Text>
           <Text style={styles.heroSubtitle}>
-            The best way to stay connected with your friends and family
+            The best way to stay connected with your friends and exes!
           </Text>
           <TouchableOpacity style={styles.ctaButton} activeOpacity={0.8}>
             <Text style={styles.ctaButtonText}>Get Started</Text>
@@ -52,7 +52,7 @@ export default function LandingPage() {
       </LinearGradient>
 
       <View style={styles.contentSection}>
-        <Text style={styles.sectionTitle}>Why Choose ConnectApp?</Text>
+        <Text style={styles.sectionTitle}>Why Choose Notigasm?</Text>
         <Text style={styles.sectionDescription}>
           Discover the features that make our platform special
         </Text>
