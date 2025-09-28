@@ -2,9 +2,13 @@ import { Tabs } from "expo-router";
 import { Home, LogIn, UserPlus } from "lucide-react-native";
 import { useEffect } from "react";
 import { Platform, Alert } from "react-native";
+import useRegisterPushToken from "../../hooks/useRegisterPushToken";
 
 // Conditional imports to prevent web bundling issues
 let Notifications: any = null;
+
+// Delay importing api to avoid bundling native-only modules on web
+let apiClient: any = null;
 let axios: any = null;
 
 // Only import on native platforms
@@ -69,13 +73,12 @@ async function registerForPushNotificationsAsync() {
     const token = tokenData.data;
     console.log("Expo Push Token:", token);
 
-    // Send token to backend if axios is available
-    if (axios && API_URL) {
+    // Send token to backend using the shared API client when available
+    if (API_URL) {
       try {
-        await axios.post(`${API_URL}/registerToken`, {
-          handle: "myHandle", // Replace with actual user handle
-          token,
-        });
+        // require dynamically so web doesn't bundle server code
+        if (!apiClient) apiClient = require('../api').api;
+        await apiClient.registerToken("myHandle", token);
         console.log("Token registered with backend");
       } catch (err) {
         console.error("Error registering token:", err);
@@ -89,8 +92,11 @@ async function registerForPushNotificationsAsync() {
 }
 
 export default function TabLayout() {
+  // Replace inline registration with hook
+  useRegisterPushToken("yash");
+
   useEffect(() => {
-    // Only run on native platforms
+    // Only run native permission flow on mount
     if (Platform.OS !== 'web') {
       (async () => {
         await registerForPushNotificationsAsync();

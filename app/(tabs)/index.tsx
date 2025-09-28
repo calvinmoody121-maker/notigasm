@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import StartStormButton from '../../components/StartStormButton';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Users, MessageCircle, Shield, Zap } from 'lucide-react-native';
 import { router } from 'expo-router';
@@ -107,6 +108,9 @@ export default function LandingPage() {
         <TouchableOpacity style={styles.secondaryButton} activeOpacity={0.8}>
           <Text style={styles.secondaryButtonText}>Learn More</Text>
         </TouchableOpacity>
+        <View style={{ marginTop: 20, alignItems: 'center' }}>
+          <StartStormButton />
+        </View>
       </View>
     </ScrollView>
   );
