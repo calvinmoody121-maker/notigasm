@@ -1,10 +1,15 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Users, MessageCircle, Shield, Zap } from 'lucide-react-native';
+import { router } from 'expo-router';
 
 const { width } = Dimensions.get('window');
 
 export default function LandingPage() {
+  const handleGetStarted = () => {
+    router.push('/signin');
+  };
+
   const features = [
     {
       icon: Users,
@@ -45,7 +50,7 @@ export default function LandingPage() {
           <Text style={styles.heroSubtitle}>
             The best way to stay connected with your friends and family
           </Text>
-          <TouchableOpacity style={styles.ctaButton} activeOpacity={0.8}>
+          <TouchableOpacity style={styles.ctaButton} activeOpacity={0.8} onPress={handleGetStarted}>
             <Text style={styles.ctaButtonText}>Get Started</Text>
           </TouchableOpacity>
         </View>
