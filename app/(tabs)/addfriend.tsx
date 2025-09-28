@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { useState } from 'react';
-import { Search, UserPlus, Check, X, Users, Star } from 'lucide-react-native';
+import { Search, UserPlus, Check, X, Users, Star, MessageCircle } from 'lucide-react-native';
+import MessageModal from '../../components/MessageModal';
 
 interface Friend {
   id: string;
@@ -14,39 +15,108 @@ interface Friend {
 export default function AddFriendPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'search' | 'suggestions'>('search');
+  const [messageModalVisible, setMessageModalVisible] = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
 
   const [suggestedFriends] = useState<Friend[]>([
     {
       id: '1',
-      name: 'Sarah Johnson',
-      username: '@sarahj',
+      name: 'John Snow',
+      username: '@johnsnow',
       mutualFriends: 12,
       status: 'none',
       isOnline: true,
     },
     {
       id: '2',
-      name: 'Mike Chen',
-      username: '@mikechen',
+      name: 'Tyrion Lannister',
+      username: '@tyrionl',
       mutualFriends: 8,
       status: 'pending',
       isOnline: false,
     },
     {
       id: '3',
-      name: 'Emma Wilson',
-      username: '@emmaw',
+      name: 'Joffrey Baratheon',
+      username: '@joffreyb',
       mutualFriends: 15,
       status: 'none',
       isOnline: true,
     },
     {
       id: '4',
-      name: 'David Kumar',
-      username: '@davidk',
+      name: 'Ramsay Bolton',
+      username: '@ramsayb',
       mutualFriends: 5,
       status: 'added',
       isOnline: false,
+    },
+  ]);
+
+  const [searchResults] = useState<Friend[]>([
+    {
+      id: '5',
+      name: 'Saul Goodman',
+      username: '@saulgood',
+      mutualFriends: 18,
+      status: 'none',
+      isOnline: true,
+    },
+    {
+      id: '6',
+      name: 'Jessy Pinkman',
+      username: '@jessyp',
+      mutualFriends: 6,
+      status: 'none',
+      isOnline: false,
+    },
+    {
+      id: '7',
+      name: 'Rachel Green',
+      username: '@rachelg',
+      mutualFriends: 23,
+      status: 'none',
+      isOnline: true,
+    },
+    {
+      id: '8',
+      name: 'Ron Weasley',
+      username: '@ronw',
+      mutualFriends: 9,
+      status: 'none',
+      isOnline: false
+    },
+        {
+      id: '51',
+      name: 'Walter White',
+      username: '@walterwhite',
+      mutualFriends: 8,
+      status: 'none',
+      isOnline: true,
+    },
+    {
+      id: '61',
+      name: 'Chandler Bing',
+      username: '@chandlerb',
+      mutualFriends: 6,
+      status: 'none',
+      isOnline: false,
+    },
+    {
+      id: '17',
+      name: 'Monica Geller',
+      username: '@monicag',
+      mutualFriends: 19,
+      status: 'none',
+      isOnline: true,
+    },
+    {
+      id: '10',
+      name: 'Ross Geller',
+      username: '@rossg',
+      mutualFriends: 11,
+      status: 'none',
+      isOnline: true,
     },
   ]);
 
@@ -70,6 +140,28 @@ export default function AddFriendPage() {
           : friend
       )
     );
+  };
+
+  const handleMessage = (friendId: string) => {
+    // Find the friend by ID from both arrays
+    const friend = [...suggestedFriends, ...searchResults].find(f => f.id === friendId);
+    if (friend) {
+      setSelectedFriend(friend);
+      setMessageModalVisible(true);
+    }
+  };
+
+  const handleSendMessage = (message: string) => {
+    console.log(`Sending message to ${selectedFriend?.name}: ${message}`);
+    // Here you would typically send the message through your messaging service
+    // For now, we'll just log it and close the modal
+    setMessageModalVisible(false);
+    setSelectedFriend(null);
+  };
+
+  const handleCloseModal = () => {
+    setMessageModalVisible(false);
+    setSelectedFriend(null);
   };
 
   const getStatusButton = (friend: Friend) => {
@@ -128,6 +220,35 @@ export default function AddFriendPage() {
     </View>
   );
 
+  const renderSearchCard = ({ item }: { item: Friend }) => (
+    <View style={styles.friendCard}>
+      <View style={styles.friendInfo}>
+        <View style={styles.avatarContainer}>
+          <View style={[styles.avatar, { backgroundColor: item.isOnline ? '#10B981' : '#6B7280' }]}>
+            <Text style={styles.avatarText}>{item.name.charAt(0).toUpperCase()}</Text>
+          </View>
+          {item.isOnline && <View style={styles.onlineIndicator} />}
+        </View>
+        <View style={styles.friendDetails}>
+          <Text style={styles.friendName}>{item.name}</Text>
+          <Text style={styles.friendUsername}>{item.username}</Text>
+          <View style={styles.mutualFriends}>
+            <Users size={12} color="#6B7280" />
+            <Text style={styles.mutualFriendsText}>{item.mutualFriends} mutual friends</Text>
+          </View>
+        </View>
+      </View>
+      <TouchableOpacity
+        style={styles.messageButton}
+        onPress={() => handleMessage(item.id)}
+        activeOpacity={0.8}
+      >
+        <MessageCircle size={16} color="#3B82F6" />
+        <Text style={styles.messageButtonText}>Poke</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -175,19 +296,25 @@ export default function AddFriendPage() {
 
       <View style={styles.content}>
         {activeTab === 'search' ? (
-          <View style={styles.searchResults}>
-            {searchQuery ? (
-              <Text style={styles.searchingText}>Searching for "{searchQuery}"...</Text>
-            ) : (
+          <FlatList
+            data={searchResults}
+            renderItem={renderSearchCard}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.friendsList}
+            ListHeaderComponent={() => (
+              <Text style={styles.sectionTitle}>Friends List</Text>
+            )}
+            ListEmptyComponent={() => (
               <View style={styles.emptyState}>
                 <Search size={48} color="#D1D5DB" />
-                <Text style={styles.emptyStateTitle}>Search for Friends</Text>
+                <Text style={styles.emptyStateTitle}>No Results Found</Text>
                 <Text style={styles.emptyStateDescription}>
-                  Enter a name or username to find and connect with friends
+                  Try searching with different keywords
                 </Text>
               </View>
             )}
-          </View>
+          />
         ) : (
           <FlatList
             data={friendRequests}
@@ -201,6 +328,14 @@ export default function AddFriendPage() {
           />
         )}
       </View>
+
+      {/* Message Modal */}
+      <MessageModal
+        visible={messageModalVisible}
+        onClose={handleCloseModal}
+        recipientName={selectedFriend?.name || ''}
+        onSendMessage={handleSendMessage}
+      />
     </View>
   );
 }
@@ -435,5 +570,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#10B981',
+  },
+  messageButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#EFF6FF',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    gap: 4,
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
+  },
+  messageButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#3B82F6',
   },
 });

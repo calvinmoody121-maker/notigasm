@@ -10,10 +10,14 @@ export default function LandingPage() {
     router.push('/signin');
   };
 
+  const handleNotificationsClick = () => {
+    router.push('/addfriend');
+  };
+
   const features = [
     {
       icon: Users,
-      title: 'Connect with Besties',
+      title: 'Connect with your Besties',
       description: 'Build meaningful connections with people around the world',
       color: '#3B82F6',
     },
@@ -26,13 +30,13 @@ export default function LandingPage() {
     {
       icon: Shield,
       title: 'Secure & Private',
-      description: 'Your conversations are encrypted and protected',
+      description: 'Your conversations are 100% encrypted and protected',
       color: '#10B981',
     },
     {
       icon: Zap,
-      title: 'Lightning Fast',
-      description: 'Optimized for speed and performance',
+      title: 'Freakingly Fast',
+      description: 'Fully optimized for speed and performance',
       color: '#F59E0B',
     },
   ];
@@ -46,12 +50,12 @@ export default function LandingPage() {
         style={styles.heroSection}
       >
         <View style={styles.heroContent}>
-          <Text style={styles.heroTitle}>Welcome to Notigasm</Text>
+          <Text style={styles.heroTitle}>Welcome to Notigasm!</Text>
           <Text style={styles.heroSubtitle}>
-            The best way to stay connected with your friends and exes!
+            The most fun and exciting way to stay connected with your friends and exes!
           </Text>
           <TouchableOpacity style={styles.ctaButton} activeOpacity={0.8} onPress={handleGetStarted}>
-            <Text style={styles.ctaButtonText}>Get Started</Text>
+            <Text style={styles.ctaButtonText}>Get Started!</Text>
           </TouchableOpacity>
         </View>
       </LinearGradient>
@@ -63,15 +67,24 @@ export default function LandingPage() {
         </Text>
 
         <View style={styles.featuresGrid}>
-          {features.map((feature, index) => (
-            <View key={index} style={styles.featureCard}>
-              <View style={[styles.iconContainer, { backgroundColor: `${feature.color}15` }]}>
-                <feature.icon size={32} color={feature.color} />
-              </View>
-              <Text style={styles.featureTitle}>{feature.title}</Text>
-              <Text style={styles.featureDescription}>{feature.description}</Text>
-            </View>
-          ))}
+          {features.map((feature, index) => {
+            const isNotifications = feature.title === 'Notifications';
+            const CardComponent = isNotifications ? TouchableOpacity : View;
+            const cardProps = isNotifications ? { 
+              activeOpacity: 0.8, 
+              onPress: handleNotificationsClick 
+            } : {};
+
+            return (
+              <CardComponent key={index} style={styles.featureCard} {...cardProps}>
+                <View style={[styles.iconContainer, { backgroundColor: `${feature.color}15` }]}>
+                  <feature.icon size={32} color={feature.color} />
+                </View>
+                <Text style={styles.featureTitle}>{feature.title}</Text>
+                <Text style={styles.featureDescription}>{feature.description}</Text>
+              </CardComponent>
+            );
+          })}
         </View>
 
         <View style={styles.statsSection}>
@@ -82,11 +95,11 @@ export default function LandingPage() {
           <View style={styles.statDivider} />
           <View style={styles.statItem}>
             <Text style={styles.statNumber}>50M+</Text>
-            <Text style={styles.statLabel}>Messages Sent</Text>
+            <Text style={styles.statLabel}>Notigasms Sent</Text>
           </View>
           <View style={styles.statDivider} />
           <View style={styles.statItem}>
-            <Text style={styles.statNumber}>99.9%</Text>
+            <Text style={styles.statNumber}>100%</Text>
             <Text style={styles.statLabel}>Uptime</Text>
           </View>
         </View>

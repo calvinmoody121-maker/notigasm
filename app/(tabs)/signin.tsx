@@ -72,7 +72,7 @@ export default function SignInPage() {
               <Mail size={20} color="#6B7280" style={styles.inputIcon} />
               <TextInput
                 style={styles.textInput}
-                placeholder="Enter your email"
+                placeholder="Enter your email or phone number"
                 placeholderTextColor="#9CA3AF"
                 value={email}
                 onChangeText={setEmail}
@@ -112,7 +112,7 @@ export default function SignInPage() {
           </View>
 
           <TouchableOpacity style={styles.forgotPassword} activeOpacity={0.7}>
-            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+            <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
