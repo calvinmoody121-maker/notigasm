@@ -1,4 +1,4 @@
-const BASE = process.env.EXPO_PUBLIC_API_BASE!.replace(/\/+$/, "");
+const BASE = (process.env.EXPO_PUBLIC_API_BASE || "https://api.notigasm.com").replace(/\/+$/, "");
 
 async function j<T>(res: Response): Promise<T> {
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
