@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, FlatList, Alert, Animated } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
-import { Search, Check, X, Users, Star, MessageCircle } from 'lucide-react-native';
+import { Search, Check, X, Users, Star, MessageCircle, UserPlus } from 'lucide-react-native';
 import MessageModal from '../../components/MessageModal';
 import { useRouter } from 'expo-router';
 
@@ -322,7 +322,16 @@ export default function AddFriendPage() {
           </TouchableOpacity>
         );
       default:
-        return null;
+        return (
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => handleAddFriend(friend.id)}
+            activeOpacity={0.8}
+          >
+            <UserPlus size={16} color="#FFFFFF" />
+            <Text style={styles.addButtonText}>Add</Text>
+          </TouchableOpacity>
+        );
     }
   };
 
@@ -721,6 +730,18 @@ const styles = StyleSheet.create({
   messageButtonTextPoked: {
     color: '#6B7280',
   },
-
-
+  addButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#5d258a',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    gap: 4,
+  },
+  addButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
 });

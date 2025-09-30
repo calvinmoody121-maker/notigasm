@@ -27,8 +27,8 @@ export default function RootLayout() {
     return (
       <Animated.View style={[styles.loadingContainer, { opacity: fadeAnim }]}>
         <View style={styles.loadingContent}>
-          <Text style={styles.loadingTitle}>Notigasm</Text>
-          <Text style={styles.loadingSubtitle}>Connect with your Besties</Text>
+          <Text style={styles.loadingTitle}>💦 Notigasm 💦</Text>
+          <Text style={styles.loadingSubtitle}>Connect with your Besties and Exes!</Text>
         </View>
         <StatusBar style="light" />
       </Animated.View>

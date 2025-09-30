@@ -296,7 +296,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: '#E5E5EA',
-    marginRight: 8,
+    marginRight: 10,
+    marginTop: 10,
   },
   textInput: {
     fontSize: 16,
