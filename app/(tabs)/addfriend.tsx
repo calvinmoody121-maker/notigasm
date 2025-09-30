@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native';
-import { useState } from 'react';
-import { Search, UserPlus, Check, X, Users, Star, MessageCircle } from 'lucide-react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, FlatList, Alert, Animated } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
+import { Search, Check, X, Users, Star, MessageCircle } from 'lucide-react-native';
 import MessageModal from '../../components/MessageModal';
+import { useRouter } from 'expo-router';
 
 interface Friend {
   id: string;
@@ -14,10 +15,28 @@ interface Friend {
 }
 
 export default function AddFriendPage() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+  const fadeAnim = useRef(new Animated.Value(1)).current;
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'search' | 'suggestions'>('search');
   const [messageModalVisible, setMessageModalVisible] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
+
+  useEffect(() => {
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start(() => {
+        setIsLoading(false);
+      });
+    }, 2000); // Show loading screen for 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const [suggestedFriends] = useState<Friend[]>([
     {
@@ -87,7 +106,7 @@ export default function AddFriendPage() {
       status: 'none',
       isOnline: false
     },
-        {
+    {
       id: '51',
       name: 'Walter White',
       username: '@walterwhite',
@@ -119,12 +138,85 @@ export default function AddFriendPage() {
       status: 'none',
       isOnline: true,
     },
+    {
+      id: '11',
+      name: 'Harry Potter',
+      username: '@harryp',
+      mutualFriends: 15,
+      status: 'none',
+      isOnline: true,
+    },
+    {
+      id: '12',
+      name: 'Hermione Granger',
+      username: '@hermioneg',
+      mutualFriends: 14,
+      status: 'none',
+      isOnline: true,
+    },
+    {
+      id: '13',
+      name: 'Tony Stark',
+      username: '@ironman',
+      mutualFriends: 31,
+      status: 'none',
+      isOnline: false,
+    },
+    {
+      id: '14',
+      name: 'Peter Parker',
+      username: '@spidey',
+      mutualFriends: 25,
+      status: 'none',
+      isOnline: true,
+    },
+    {
+      id: '15',
+      name: 'Michael Scott',
+      username: '@worldsbestboss',
+      mutualFriends: 22,
+      status: 'none',
+      isOnline: true,
+    },
+    {
+      id: '16',
+      name: 'Dwight Schrute',
+      username: '@assistantregionalmanager',
+      mutualFriends: 17,
+      status: 'none',
+      isOnline: false,
+    },
+    {
+      id: '18',
+      name: 'Jim Halpert',
+      username: '@jimh',
+      mutualFriends: 20,
+      status: 'none',
+      isOnline: true,
+    },
+    {
+      id: '19',
+      name: 'Pam Beesly',
+      username: '@pamb',
+      mutualFriends: 19,
+      status: 'none',
+      isOnline: true,
+    },
   ]);
 
   const [friendRequests, setFriendRequests] = useState(suggestedFriends);
 
   const handleAddFriend = (friendId: string) => {
+    // Update friendRequests
     setFriendRequests(prev =>
+      prev.map(friend =>
+        friend.id === friendId
+          ? { ...friend, status: 'pending' }
+          : friend
+      )
+    );
+    // Update searchResults
+    setSearchResults(prev =>
       prev.map(friend =>
         friend.id === friendId
           ? { ...friend, status: 'pending' }
@@ -230,16 +322,7 @@ export default function AddFriendPage() {
           </TouchableOpacity>
         );
       default:
-        return (
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() => handleAddFriend(friend.id)}
-            activeOpacity={0.8}
-          >
-            <UserPlus size={16} color="#FFFFFF" />
-            <Text style={styles.addButtonText}>Add</Text>
-          </TouchableOpacity>
-        );
+        return null;
     }
   };
 
@@ -297,12 +380,17 @@ export default function AddFriendPage() {
     </View>
   );
 
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Add Friends</Text>
-        <Text style={styles.headerSubtitle}>Connect with people you know</Text>
-      </View>
+      <TouchableOpacity 
+        style={styles.header}
+        onPress={() => router.replace('/(tabs)/addfriend')}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.headerTitle}>Connect with your Besties</Text>
+        <Text style={styles.headerSubtitle}>Build meaningful connections with people around the world</Text>
+      </TouchableOpacity>
 
       <View style={styles.searchContainer}>
         <View style={styles.searchInputContainer}>
@@ -351,7 +439,7 @@ export default function AddFriendPage() {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.friendsList}
             ListHeaderComponent={() => (
-              <Text style={styles.sectionTitle}>Friends List</Text>
+              <Text style={styles.sectionTitle}>Friends List:</Text>
             )}
             ListEmptyComponent={() => (
               <View style={styles.emptyState}>
@@ -405,11 +493,15 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '800',
     color: '#111827',
-    marginBottom: 4,
+    marginBottom: 8,
+    textAlign: 'center',
   },
   headerSubtitle: {
     fontSize: 16,
     color: '#6B7280',
+    textAlign: 'center',
+    paddingHorizontal: 20,
+    lineHeight: 22,
   },
   searchContainer: {
     paddingHorizontal: 20,
@@ -573,20 +665,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#6B7280',
   },
-  addButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#5d258a',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-    gap: 4,
-  },
-  addButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#FFFFFF',
-  },
+
   cancelButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -642,5 +721,6 @@ const styles = StyleSheet.create({
   messageButtonTextPoked: {
     color: '#6B7280',
   },
+
 
 });
