@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native';
 import { useState } from 'react';
 import { Search, UserPlus, Check, X, Users, Star, MessageCircle } from 'lucide-react-native';
 import MessageModal from '../../components/MessageModal';
@@ -10,6 +10,7 @@ interface Friend {
   mutualFriends: number;
   status: 'none' | 'pending' | 'added';
   isOnline: boolean;
+  poked?: boolean;
 }
 
 export default function AddFriendPage() {
@@ -53,7 +54,7 @@ export default function AddFriendPage() {
     },
   ]);
 
-  const [searchResults] = useState<Friend[]>([
+  const [searchResults, setSearchResults] = useState<Friend[]>([
     {
       id: '5',
       name: 'Saul Goodman',
@@ -142,6 +143,42 @@ export default function AddFriendPage() {
     );
   };
 
+  const handleUnfriend = (friendId: string) => {
+    Alert.alert(
+      'Unfriend',
+      'Are you sure you want to unfriend this person?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Unfriend',
+          style: 'destructive',
+          onPress: () => {
+            // Update friendRequests
+            setFriendRequests(prev =>
+              prev.map(friend =>
+                friend.id === friendId
+                  ? { ...friend, status: 'none' as const }
+                  : friend
+              )
+            );
+            // Update searchResults
+            setSearchResults(prev =>
+              prev.map(friend =>
+                friend.id === friendId
+                  ? { ...friend, status: 'none' as const }
+                  : friend
+              )
+            );
+          },
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
   const handleMessage = (friendId: string) => {
     // Find the friend by ID from both arrays
     const friend = [...suggestedFriends, ...searchResults].find(f => f.id === friendId);
@@ -153,7 +190,11 @@ export default function AddFriendPage() {
 
   const handleSendMessage = (message: string) => {
     console.log(`Sending message to ${selectedFriend?.name}: ${message}`);
-    // Here you would typically send the message through your messaging service
+    // Update the poked status for the friend in searchResults
+    const updatedResults = searchResults.map(friend =>
+      friend.id === selectedFriend?.id ? { ...friend, poked: true } : friend
+    );
+    setSearchResults(updatedResults);
     // For now, we'll just log it and close the modal
     setMessageModalVisible(false);
     setSelectedFriend(null);
@@ -179,10 +220,14 @@ export default function AddFriendPage() {
         );
       case 'added':
         return (
-          <View style={styles.addedButton}>
+          <TouchableOpacity
+            style={styles.addedButton}
+            onPress={() => handleUnfriend(friend.id)}
+            activeOpacity={0.8}
+          >
             <Check size={16} color="#10B981" />
             <Text style={styles.addedButtonText}>Friends</Text>
-          </View>
+          </TouchableOpacity>
         );
       default:
         return (
@@ -239,12 +284,15 @@ export default function AddFriendPage() {
         </View>
       </View>
       <TouchableOpacity
-        style={styles.messageButton}
+        style={[styles.messageButton, item.poked && styles.messageButtonPoked]}
         onPress={() => handleMessage(item.id)}
         activeOpacity={0.8}
+        disabled={item.poked}
       >
-        <MessageCircle size={16} color="#5d258a" />
-        <Text style={styles.messageButtonText}>Poke</Text>
+        <MessageCircle size={16} color={item.poked ? '#6B7280' : '#5d258a'} />
+        <Text style={[styles.messageButtonText, item.poked && styles.messageButtonTextPoked]}>
+          {item.poked ? 'Poked' : 'Poke'}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -587,4 +635,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#5d258a',
   },
+  messageButtonPoked: {
+    backgroundColor: '#F3F4F6',
+    borderColor: '#E5E7EB',
+  },
+  messageButtonTextPoked: {
+    color: '#6B7280',
+  },
+
 });
